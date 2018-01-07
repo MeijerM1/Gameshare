@@ -1,0 +1,29 @@
+@()
+
+@site.main("KoffieApp") {
+
+    <script>
+        $(document).ready(function() {
+            getPeople();
+            getCoffee();
+        });
+    </script>
+    <nav>
+        <button onclick="getTestPage('/test/mainpage')">Test page</button>
+        <button onclick="getTestPage('/test/otherpage')">Other test page</button>
+    </nav>
+<div class="container">
+    <h1>Add user</h1>
+    <form method="POST" action="@routes.PersonController.addPerson()">
+        @helper.CSRF.formField
+        <input type="text" name="name" id="nameinput"/>
+        <button>Add User</button>
+    </form>
+
+    <h1>All people</h1>
+    <button onclick="getPeople()">Reload people</button>
+    <div id="peopleContainer"></div>
+
+    <div id="pageContent"></div>
+</div>
+}
