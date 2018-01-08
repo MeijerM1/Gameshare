@@ -1,4 +1,4 @@
-package models.database;
+package models.com.gamecode_share.database;
 
 import akka.actor.ActorSystem;
 import scala.concurrent.ExecutionContext;

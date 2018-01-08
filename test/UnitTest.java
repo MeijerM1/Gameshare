@@ -1,6 +1,6 @@
 import controllers.UserController;
-import models.storage.User;
-import models.database.Interfaces.UserRepository;
+import models.com.gamecode_share.models.User;
+import models.com.gamecode_share.database.Interfaces.UserRepository;
 import org.junit.Test;
 import play.core.j.JavaContextComponents;
 import play.core.j.JavaHelpers;

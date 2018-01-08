@@ -1,8 +1,8 @@
-package models.database.Interfaces;
+package models.com.gamecode_share.database.Interfaces;
 
 import com.google.inject.ImplementedBy;
-import models.database.JPARepository.JPAUserRepository;
-import models.storage.User;
+import models.com.gamecode_share.database.JPARepository.JPAUserRepository;
+import models.com.gamecode_share.models.User;
 import play.db.jpa.Transactional;
 
 import java.util.List;

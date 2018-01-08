@@ -1,4 +1,4 @@
-package models.testing;
+package models.com.gamecode_share.testing;
 
 import java.io.BufferedReader;
 import java.io.IOException;

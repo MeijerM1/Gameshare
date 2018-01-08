@@ -1,7 +1,7 @@
 package controllers;
 
-import models.storage.User;
-import models.database.Interfaces.UserRepository;
+import models.com.gamecode_share.models.User;
+import models.com.gamecode_share.database.Interfaces.UserRepository;
 import play.data.DynamicForm;
 import play.data.FormFactory;
 import play.libs.concurrent.HttpExecutionContext;

@@ -1,8 +1,8 @@
-package models.database.JPARepository;
+package models.com.gamecode_share.database.JPARepository;
 
-import models.database.DatabaseExecutionContext;
-import models.database.Interfaces.UserRepository;
-import models.storage.User;
+import models.com.gamecode_share.database.DatabaseExecutionContext;
+import models.com.gamecode_share.database.Interfaces.UserRepository;
+import models.com.gamecode_share.models.User;
 import play.db.jpa.JPAApi;
 import play.db.jpa.Transactional;
 

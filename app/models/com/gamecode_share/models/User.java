@@ -1,4 +1,6 @@
-package models.storage;
+package models.com.gamecode_share.models;
+
+import org.hibernate.annotations.ColumnTransformer;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -12,6 +14,12 @@ public class User {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
 	public Long id;
 
+    String test =  System.getenv("GAMESECRET");
+
+    @Column(name="username")
+    @ColumnTransformer(
+            read="decrypt(username)",
+            write="encrypt(?)")
     public String username;
     private byte[] salt;
     private byte[] hashedPassword;
