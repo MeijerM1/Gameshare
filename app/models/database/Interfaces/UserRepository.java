@@ -14,7 +14,7 @@ import java.util.concurrent.CompletionStage;
 @ImplementedBy(JPAUserRepository.class)
 public interface UserRepository {
 
-    CompletionStage<User> add(User user);
+    CompletionStage<User> add(User user, char[] password);
 
     @Transactional
     List<User> list();

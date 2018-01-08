@@ -38,8 +38,8 @@ public class JPAUserRepository implements UserRepository {
     }
 
     @Override
-    public CompletionStage<User> add(User user) {
-        return supplyAsync(() -> wrap(em -> insert(em, user)), executionContext);
+    public CompletionStage<User> add(User user, char[] password) {
+        return supplyAsync(() -> wrap(em -> insert(em, user, password)), executionContext);
     }
 
     @Override
@@ -94,12 +94,10 @@ public class JPAUserRepository implements UserRepository {
         return jpaApi.withTransaction(function);
     }
 
-    private User insert(EntityManager em, User user) {
+    private User insert(EntityManager em, User user, char[] password) {
 
         user.setSalt(getNextSalt());
-        user.setHashedPassword(hash(user.getPassword(), user.getSalt(), 1000, 256));
-        String fakePw = "000000000";
-        user.setPassword(fakePw.toCharArray());
+        user.setHashedPassword(hash(password, user.getSalt(), 1000, 256));
 
         em.persist(user);
         return user;

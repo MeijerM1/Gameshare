@@ -5,45 +5,10 @@
 <html>
     <head>
         <title>@title</title>
-        <link rel="shortcut icon" type="image/png" href="@routes.Assets.at("images/coffee.png")">
         <script src="@routes.Assets.at("javascripts/jquery-2.2.0.min.js")" type="text/javascript"></script>
-        <script src="@routes.Assets.at("javascripts/pageLoading.js")" type="text/javascript"></script>
-        <script src="@routes.Assets.at("javascripts/coffeeContent.js")" type="text/javascript"></script>
-        <script src="@routes.Assets.at("javascripts/peopleContent.js")" type="text/javascript"></script>
         <link rel="stylesheet" href="@routes.Assets.at("stylesheets/main.css")">
     </head>
     <body>
-        <div class="navbar">
-            <a href="#"  onclick="getTestPage('/user/login')"><img src="@routes.Assets.at("images/coffee.png")" class="logo" alt="logo"></a>
-            <div class="dropdown firstnavitem" >
-                <button class="dropbtn">Test
-                <i class="fa fa-caret-down"></i>
-                </button>
-                <div class="dropdown-content">
-                    <a onclick="getTestPage('/test/mainpage')">Test page</a>
-                    <a onclick="getTestPage('/test/otherpage')">Other test page</a>
-                </div>
-            </div>
-            <div class="dropdown" >
-                <button class="dropbtn coffeenav">Koffie
-                    <i class="fa fa-caret-down"></i>
-                </button>
-                <div class="dropdown-content">
-                    <a onclick="getTestPage('/coffee/addCoffee')">Koffie toevoegen</a>
-                    <a onclick="getTestPage('/coffee/overview')">Alle Koffie's</a>
-                </div>
-            </div>
-            <div class="dropdown usernav" >
-                <button class="dropbtn ">Gebruiker
-                    <i class="fa fa-caret-down"></i>
-                </button>
-                <div class="dropdown-content">
-                    <a onclick="getTestPage('/user/addperson')">Toevoegen</a>
-                    <a onclick="getTestPage('/user/overview')">Alle gebruikers</a>
-                    <a onclick="getTestPage('/user/login')">Inloggen</a>
-                </div>
-            </div>
-        </div>
-        <div id="pageContent"></div>
+        @content
     </body>
 </html>

@@ -13,24 +13,13 @@ public class User {
 	public Long id;
 
     public String username;
-    public char[] password;
-
     private byte[] salt;
     private byte[] hashedPassword;
 
     public User() {}
 
-    public User(String username, char[] password) {
+    public User(String username) {
         this.username = username;
-        this.password = password;
-    }
-
-    public char[] getPassword() {
-        return password;
-    }
-
-    public void setPassword(char[] password) {
-        this.password = password;
     }
 
     public byte[] getSalt() {

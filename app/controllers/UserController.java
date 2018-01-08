@@ -2,6 +2,7 @@ package controllers;
 
 import models.storage.User;
 import models.database.Interfaces.UserRepository;
+import play.data.DynamicForm;
 import play.data.FormFactory;
 import play.libs.concurrent.HttpExecutionContext;
 import play.mvc.Controller;
@@ -32,8 +33,10 @@ public class UserController extends Controller {
         return ok(views.html.site.index.render());
     }
 
-    public CompletionStage<Result> addPerson() {
-        User user = formFactory.form(User.class).bindFromRequest().get();
-        return userRepository.add(user).thenApplyAsync(p -> redirect(routes.PersonController.index()), ec.current());
+    public CompletionStage<Result> addUser() {
+        DynamicForm requestData = formFactory.form().bindFromRequest();
+        char[] password = requestData.get("password").toCharArray();
+        User user = new User(requestData.get("name"));
+        return userRepository.add(user, password).thenApplyAsync(p -> redirect(routes.UserController.index()), ec.current());
     }
 }

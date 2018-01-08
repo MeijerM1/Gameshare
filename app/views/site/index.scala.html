@@ -14,9 +14,12 @@
     </nav>
 <div class="container">
     <h1>Add user</h1>
-    <form method="POST" action="@routes.PersonController.addPerson()">
+    <form method="POST" action="@routes.UserController.addUser()">
         @helper.CSRF.formField
+        <label for="Name"></label>
         <input type="text" name="name" id="nameinput"/>
+        <label for="Password"></label>
+        <input type="password" name="password" id="passwordinput"/>
         <button>Add User</button>
     </form>
 

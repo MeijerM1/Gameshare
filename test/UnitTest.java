@@ -88,7 +88,7 @@ public class UnitTest implements JavaHelpers {
 
             // Create controller and call method under test:
             final UserController controller = new UserController(formFactory, repository, ec);
-            return controller.addPerson();
+            return controller.addUser();
         });
 
         // Test the completed result
