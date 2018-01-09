@@ -27,15 +27,19 @@ public class User {
     @Column(nullable = false)
     private boolean isVerified;
 
+    private Role role;
+
     @OneToMany( targetEntity=GameCode.class )
     private List<GameCode> codes;
 
     public User() {
+        role = Role.USER;
         codes = new ArrayList<>();
     }
 
     public User(String username)
     {
+        role = Role.USER;
         codes = new ArrayList<>();
         this.username = username;
     }
