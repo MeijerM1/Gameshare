@@ -21,3 +21,7 @@ libraryDependencies += "org.assertj" % "assertj-core" % "3.6.2" % "test"
 libraryDependencies += "org.mockito" % "mockito-core" % "2.1.0" % "test"
 testOptions in Test += Tests.Argument(TestFrameworks.JUnit, "-a", "-v")
 
+libraryDependencies ++= Seq(
+  "com.adrianhurt" %% "play-bootstrap" % "1.2-P26-B4"
+)
+

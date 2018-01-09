@@ -43,7 +43,7 @@ public class JPAUserRepository implements UserRepository {
     }
 
     @Override
-    public void editPerson(Long id, String name){
+    public void editUser(Long id, String name){
         jpaApi.withTransaction(() -> {
             EntityManager em = jpaApi.em();
             User user = em.find(User.class,id);
@@ -62,12 +62,20 @@ public class JPAUserRepository implements UserRepository {
     }
 
     @Override
-    public User getPersonByUsername(String username) {
+    public User getUserByUsername(String username) {
         return jpaApi.withTransaction(() -> {
             EntityManager em = jpaApi.em();
             TypedQuery<User> query = em.createQuery("select p from User p where username = :username", User.class);
             return query.setParameter("username", username).getSingleResult();
+        });
+    }
 
+    @Override
+    public User getUserByEmail(String email) {
+        return jpaApi.withTransaction(() -> {
+            EntityManager em = jpaApi.em();
+            TypedQuery<User> query = em.createQuery("select p from User p where email = :email", User.class);
+            return query.setParameter("email", email).getSingleResult();
         });
     }
 

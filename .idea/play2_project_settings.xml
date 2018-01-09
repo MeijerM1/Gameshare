@@ -10,10 +10,18 @@
             </ProjectSettingsEntry>
           </value>
         </entry>
+        <entry key="play-java-jpa-example">
+          <value>
+            <ProjectSettingsEntry>
+              <option name="playDistrPath" value="$USER_HOME$/.ivy2/cache/com.typesafe.play/play_2.12/jars/play_2.12-2.6.3.jar" />
+            </ProjectSettingsEntry>
+          </value>
+        </entry>
         <entry key="root">
           <value>
             <ProjectSettingsEntry>
-              <option name="confDir" value="C:\Repos\Gameshare\app" />
+              <option name="sourceDir" value="C:\Repos\Gameshare\app" />
+              <option name="confDir" value="D:\Repos\Gameshare\app" />
               <option name="templateImports">
                 <list>
                   <option value="_root_.play.twirl.api.TwirlFeatureImports._" />
@@ -44,7 +52,7 @@
                   <option value="play.libs.F" />
                 </list>
               </option>
-              <option name="uri" value="/C:/Repos/Gameshare" />
+              <option name="uri" value="/D:/Repos/Gameshare" />
             </ProjectSettingsEntry>
           </value>
         </entry>

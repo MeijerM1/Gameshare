@@ -18,6 +18,9 @@ public class GameCode {
             write="encrypt(?)")
     private String code;
 
+    @Column(nullable = false)
+    private String gameName;
+
     public GameCode() { }
 
 
@@ -35,5 +38,13 @@ public class GameCode {
 
     public void setCode(String code) {
         this.code = code;
+    }
+
+    public String getGameName() {
+        return gameName;
+    }
+
+    public void setGameName(String gameName) {
+        this.gameName = gameName;
     }
 }

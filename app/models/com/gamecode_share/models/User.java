@@ -13,8 +13,7 @@ public class User {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
-
-
+    @Column(nullable = false)
     private String username;
     @Column(nullable = false)
     private byte[] salt;
@@ -29,11 +28,15 @@ public class User {
     private boolean isVerified;
 
     @OneToMany( targetEntity=GameCode.class )
-    private List<GameCode> codes= new ArrayList<>();
+    private List<GameCode> codes;
 
-    public User() {}
+    public User() {
+        codes = new ArrayList<>();
+    }
 
-    public User(String username) {
+    public User(String username)
+    {
+        codes = new ArrayList<>();
         this.username = username;
     }
 
@@ -91,5 +94,17 @@ public class User {
 
     public void setVerified(boolean verified) {
         isVerified = verified;
+    }
+
+    public List<GameCode> getCodes() {
+        return codes;
+    }
+
+    public void setCodes(List<GameCode> codes) {
+        this.codes = codes;
+    }
+
+    public void addCode(GameCode code) {
+        codes.add(code);
     }
 }

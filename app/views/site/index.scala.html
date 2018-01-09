@@ -1,17 +1,7 @@
-@()
+@import models.com.gamecode_share.models.User
+@(page: String, isLoggedIn: Boolean, user: User)
 
-@site.main("KoffieApp") {
-
-    <script>
-        $(document).ready(function() {
-            getPeople();
-            getCoffee();
-        });
-    </script>
-    <nav>
-        <button onclick="getTestPage('/test/mainpage')">Test page</button>
-        <button onclick="getTestPage('/test/otherpage')">Other test page</button>
-    </nav>
+@shared.main(page, isLoggedIn, user) {
 <div class="container">
     <h1>Add user</h1>
     <form method="POST" action="@routes.UserController.addUser()">

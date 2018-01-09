@@ -2,11 +2,13 @@ package controllers;
 
 import models.com.gamecode_share.models.User;
 import models.com.gamecode_share.database.Interfaces.UserRepository;
+import models.com.gamecode_share.security.Secured;
 import play.data.DynamicForm;
 import play.data.FormFactory;
 import play.libs.concurrent.HttpExecutionContext;
 import play.mvc.Controller;
 import play.mvc.Result;
+import play.mvc.Security;
 
 import javax.inject.Inject;
 import java.util.concurrent.CompletionStage;
@@ -30,9 +32,10 @@ public class UserController extends Controller {
     }
 
     public Result index() {
-        return ok(views.html.site.index.render());
+        return ok(views.html.site.index.render("Home", Secured.isLoggedIn(ctx()), Secured.getUserInfo(ctx())));
     }
 
+    @Security.Authenticated(Secured.class)
     public CompletionStage<Result> addUser() {
         DynamicForm requestData = formFactory.form().bindFromRequest();
         char[] password = requestData.get("password").toCharArray();
