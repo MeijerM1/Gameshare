@@ -23,23 +23,13 @@ public class UserController extends Controller {
     private final FormFactory formFactory;
     private final UserRepository userRepository;
     private final HttpExecutionContext ec;
+    private Secured secured;
 
     @Inject
     public UserController(FormFactory formFactory, UserRepository userRepository, HttpExecutionContext ec) {
         this.formFactory = formFactory;
         this.userRepository = userRepository;
         this.ec = ec;
-    }
-
-    public Result index() {
-        return ok(views.html.site.index.render("Home", Secured.isLoggedIn(ctx()), Secured.getUserInfo(ctx())));
-    }
-
-    @Security.Authenticated(Secured.class)
-    public CompletionStage<Result> addUser() {
-        DynamicForm requestData = formFactory.form().bindFromRequest();
-        char[] password = requestData.get("password").toCharArray();
-        User user = new User(requestData.get("name"));
-        return userRepository.add(user, password).thenApplyAsync(p -> redirect(routes.UserController.index()), ec.current());
+        secured = new Secured(userRepository);
     }
 }

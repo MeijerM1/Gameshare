@@ -3,20 +3,6 @@
 
 @shared.main(page, isLoggedIn, user) {
 <div class="container">
-    <h1>Add user</h1>
-    <form method="POST" action="@routes.UserController.addUser()">
-        @helper.CSRF.formField
-        <label for="Name"></label>
-        <input type="text" name="name" id="nameinput"/>
-        <label for="Password"></label>
-        <input type="password" name="password" id="passwordinput"/>
-        <button>Add User</button>
-    </form>
-
-    <h1>All people</h1>
-    <button onclick="getPeople()">Reload people</button>
-    <div id="peopleContainer"></div>
-
-    <div id="pageContent"></div>
+    <h1>Home page</h1>
 </div>
 }

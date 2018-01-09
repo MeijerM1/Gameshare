@@ -1,7 +1,12 @@
 package models.com.gamecode_share.security;
 
+import models.com.gamecode_share.database.DatabaseExecutionContext;
 import models.com.gamecode_share.database.Interfaces.UserRepository;
+import models.com.gamecode_share.database.JPARepository.JPAUserRepository;
 import models.com.gamecode_share.models.User;
+import org.springframework.beans.factory.annotation.Value;
+import play.db.jpa.JPAApi;
+import play.libs.concurrent.HttpExecutionContext;
 import play.mvc.Http;
 import play.mvc.Result;
 import play.mvc.Security;
@@ -10,11 +15,11 @@ import javax.inject.Inject;
 
 public class Secured extends Security.Authenticator {
 
-    private static UserRepository userRepo;
+    private final UserRepository userRepo;
 
     @Inject
     public Secured(UserRepository userRepo) {
-        Secured.userRepo = userRepo;
+        this.userRepo = userRepo;
     }
 
     @Override
@@ -36,7 +41,7 @@ public class Secured extends Security.Authenticator {
         return (getUser(ctx) != null);
     }
 
-    public static User getUserInfo(Http.Context ctx) {
+    public User getUserInfo(Http.Context ctx) {
         return userRepo.getUserByEmail(getUser(ctx));
     }
 }

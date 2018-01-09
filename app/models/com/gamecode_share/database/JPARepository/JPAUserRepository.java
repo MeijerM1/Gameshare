@@ -9,7 +9,9 @@ import play.db.jpa.Transactional;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
 import javax.inject.Inject;
+import javax.inject.Singleton;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
@@ -26,6 +28,7 @@ import static java.util.concurrent.CompletableFuture.supplyAsync;
 /**
  * Provide JPA operations running inside of a thread pool sized to the connection pool
  */
+@Singleton
 public class JPAUserRepository implements UserRepository {
 
     private final JPAApi jpaApi;
@@ -54,10 +57,10 @@ public class JPAUserRepository implements UserRepository {
     }
 
     @Override
-    public boolean login(String username, char[] password) {
+    public boolean login(String email, char[] password) {
         return jpaApi.withTransaction(() -> {
             EntityManager em = jpaApi.em();
-            return login(em, username, password);
+            return login(em, email, password);
         });
     }
 
@@ -72,11 +75,16 @@ public class JPAUserRepository implements UserRepository {
 
     @Override
     public User getUserByEmail(String email) {
-        return jpaApi.withTransaction(() -> {
-            EntityManager em = jpaApi.em();
-            TypedQuery<User> query = em.createQuery("select p from User p where email = :email", User.class);
-            return query.setParameter("email", email).getSingleResult();
-        });
+        try {
+            return jpaApi.withTransaction(() -> {
+                EntityManager em = jpaApi.em();
+                TypedQuery<User> query = em.createQuery("select p from User p where email = :email", User.class);
+                return query.setParameter("email", email).getSingleResult();
+            });
+        } catch (NoResultException e) {
+            return null;
+        }
+
     }
 
     @Override
@@ -111,9 +119,9 @@ public class JPAUserRepository implements UserRepository {
         return user;
     }
 
-    private boolean login(EntityManager em, String username, char[] password) {
-        TypedQuery<User> query = em.createQuery("select p from User p where username = :username", User.class);
-        User userToLogin = query.setParameter("username", username).getSingleResult();
+    private boolean login(EntityManager em, String email, char[] password) {
+        TypedQuery<User> query = em.createQuery("select p from User p where email = :email", User.class);
+        User userToLogin = query.setParameter("email", email).getSingleResult();
 
         byte[] passwordToCheck = hash(password, userToLogin.getSalt(), 1000, 256);
 

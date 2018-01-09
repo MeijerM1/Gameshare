@@ -23,7 +23,7 @@ public interface UserRepository {
 
     void editUser(Long id, String name);
 
-    boolean login(String username, char[] password);
+    boolean login(String email, char[] password);
 
     User getUserByUsername(String username);
 
