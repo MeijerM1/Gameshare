@@ -1,0 +1,16 @@
+@import models.com.gamecode_share.models.User
+@import b4.vertical.fieldConstructor
+@(page: String, isLoggedIn: Boolean, user: User, form: DynamicForm)
+
+@shared.main(page, isLoggedIn, user) {
+    <div class="container">
+        <h1>Profile</h1>
+
+        <h2>My codes</h2>
+
+        <h2>Change account information</h2>
+
+        <h2>Delete account</h2>
+    </div>
+}
+

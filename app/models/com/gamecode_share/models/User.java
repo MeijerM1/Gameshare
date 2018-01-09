@@ -111,4 +111,12 @@ public class User {
     public void addCode(GameCode code) {
         codes.add(code);
     }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
 }

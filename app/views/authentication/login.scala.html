@@ -4,7 +4,7 @@
 
 @shared.main(page, isLoggedIn, user) {
     <div class="container">
-        <h1>Inloggen</h1>
+        <h1>Log in</h1>
         @b4.form(routes.AuthenticationController.authenticate()) {
             @helper.CSRF.formField
             @if(form.hasErrors) {
