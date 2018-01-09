@@ -1,6 +1,6 @@
 @import models.com.gamecode_share.models.User
 @import b4.vertical.fieldConstructor
-@(page: String, isLoggedIn: Boolean, user: User, form: DynamicForm)
+@(page: String, isLoggedIn: Boolean, user: User, form: Form[User])
 
 @shared.main(page, isLoggedIn, user) {
     <div class="container">

@@ -21,7 +21,7 @@ public interface UserRepository {
 
     void delete(Long id);
 
-    void editUser(Long id, String name);
+    void editUser(User user);
 
     boolean login(String email, char[] password);
 

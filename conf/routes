@@ -11,5 +11,8 @@ POST    /auth/authenticate          controllers.AuthenticationController.authent
 GET     /auth/register              controllers.AuthenticationController.register()
 POST    /auth/create                controllers.AuthenticationController.createAccount()
 
+#Account
+GET     /account/profile            controllers.UserController.profile()
+
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

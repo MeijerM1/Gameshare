@@ -46,13 +46,13 @@ public class JPAUserRepository implements UserRepository {
     }
 
     @Override
-    public void editUser(Long id, String name){
+    public void editUser(User user){
         jpaApi.withTransaction(() -> {
             EntityManager em = jpaApi.em();
-            User user = em.find(User.class,id);
-            if(!name.isEmpty()){
-                user.setUsername(name);
-            }
+            User userToUpdate = em.find(User.class, user.getId());
+            em.getTransaction().begin();
+            userToUpdate = user;
+            em.getTransaction().commit();
         });
     }
 
