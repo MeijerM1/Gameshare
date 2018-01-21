@@ -13,6 +13,6 @@ POST    /auth/create                controllers.AuthenticationController.createA
 
 #Account
 GET     /account/profile            controllers.UserController.profile()
-
+GET     /account/test               controllers.UserController.sendEmail()
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

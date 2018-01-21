@@ -3,6 +3,8 @@ package controllers;
 import models.com.gamecode_share.models.User;
 import models.com.gamecode_share.database.Interfaces.UserRepository;
 import models.com.gamecode_share.security.Secured;
+import models.com.gamecode_share.utility.MailService;
+import play.api.libs.mailer.MailerClient;
 import play.data.DynamicForm;
 import play.data.Form;
 import play.data.FormFactory;
@@ -44,5 +46,15 @@ public class UserController extends Controller {
 
     public Result profile() {
         return ok(views.html.account.profile.render("Profile", Secured.isLoggedIn(ctx()), secured.getUserInfo(ctx()), form));
+    }
+
+    @com.google.inject.Inject
+    MailerClient mailerClient;
+    public Result sendEmail() {
+        MailService mailer = new MailService(mailerClient);
+
+        mailer.sendSignUpConfirmation("mpw.meijer@gmail.com");
+
+        return ok();
     }
 }
