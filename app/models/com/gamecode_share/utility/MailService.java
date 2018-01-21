@@ -1,6 +1,5 @@
 package models.com.gamecode_share.utility;
 
-
 import play.libs.mailer.Email;
 import play.libs.mailer.MailerClient;
 
@@ -9,7 +8,7 @@ import javax.inject.Inject;
 public class MailService {
     private MailerClient mailerClient;
 
-    public MailService(MailerClient mailerClient){
+    public MailService(MailerClient mailerClient) {
         this.mailerClient = mailerClient;
     }
 
