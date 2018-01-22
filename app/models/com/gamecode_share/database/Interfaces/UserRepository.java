@@ -21,11 +21,13 @@ public interface UserRepository {
 
     void delete(Long id);
 
-    void editUser(User user);
+    void updateUser(User user);
 
     boolean login(String email, char[] password);
 
     User getUserByUsername(String username);
 
     User getUserByEmail(String email);
+
+    boolean verifyUser(String email, String verificationCode);
 }

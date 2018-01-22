@@ -3,6 +3,8 @@ package controllers;
 import models.com.gamecode_share.database.Interfaces.UserRepository;
 import models.com.gamecode_share.models.User;
 import models.com.gamecode_share.security.Secured;
+import models.com.gamecode_share.utility.MailService;
+import play.api.libs.mailer.MailerClient;
 import play.data.DynamicForm;
 import play.data.Form;
 import play.data.FormFactory;
@@ -11,6 +13,7 @@ import play.mvc.Controller;
 import play.mvc.Result;
 
 import javax.inject.Inject;
+import java.util.Date;
 
 public class AuthenticationController extends Controller {
 
@@ -59,9 +62,12 @@ public class AuthenticationController extends Controller {
         user.setEmail(filledForm.field("email").value());
         user.setUsername(filledForm.field("username").value());
         user.setReputation(0);
-        user.setVerified(false);
+        user.setJoinDate(new Date());
 
         char[] password = filledForm.field("password").value().toCharArray();
+
+        user.generateVerificationCode();
+        sendEmail(user);
 
         userRepository.add(user, password);
 
@@ -70,6 +76,25 @@ public class AuthenticationController extends Controller {
 
     public Result register() {
         return ok(views.html.authentication.register.render("Register", Secured.isLoggedIn(ctx()), secured.getUserInfo(ctx()), form));
+    }
+
+    public Result verifyAccount(String email, String verificationCode  ) {
+        boolean result = userRepository.verifyUser(email , verificationCode);
+
+        if(result) {
+            System.out.println("Account verified");
+        } else {
+            System.out.println("Account verification unsuccessful");
+        }
+        return ok();
+    }
+
+    @com.google.inject.Inject
+    MailerClient mailerClient;
+    public void sendEmail(User user) {
+        MailService mailer = new MailService(mailerClient);
+
+        mailer.sendSignUpConfirmation(user);
     }
 
 

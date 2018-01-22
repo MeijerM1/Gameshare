@@ -17,6 +17,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.CompletionStage;
@@ -46,13 +47,20 @@ public class JPAUserRepository implements UserRepository {
     }
 
     @Override
-    public void editUser(User user){
+    public void updateUser(User user){
         jpaApi.withTransaction(() -> {
             EntityManager em = jpaApi.em();
             User userToUpdate = em.find(User.class, user.getId());
-            em.getTransaction().begin();
-            userToUpdate = user;
-            em.getTransaction().commit();
+            userToUpdate.setJoinDate(user.getJoinDate());
+            userToUpdate.setVerifyDate(user.getVerifyDate());
+            userToUpdate.setVerified(user.isVerified());
+            userToUpdate.setVerificationCode(user.getVerificationCode());
+            userToUpdate.setReputation(user.getReputation());
+            userToUpdate.setUsername(user.getUsername());
+            userToUpdate.setEmail(user.getEmail());
+            userToUpdate.setCodes(user.getCodes());
+            userToUpdate.setHashedPassword(user.getHashedPassword());
+            userToUpdate.setSalt(user.getSalt());
         });
     }
 
@@ -84,7 +92,28 @@ public class JPAUserRepository implements UserRepository {
         } catch (NoResultException e) {
             return null;
         }
+    }
 
+    @Override
+    public boolean verifyUser(String email, String verificationCode) {
+        User user = getUserByEmail(email);
+
+        Date date = new Date();
+
+        long diff = date.getTime() - user.getVerifyDate().getTime();
+        long diffHours = diff / (60 * 60 * 1000) % 24;
+
+        if(diffHours < 1 && user.getVerificationCode().equals(verificationCode)) {
+            user.setVerificationCode("");
+            user.setVerifyDate(null);
+            user.setVerified(true);
+
+            updateUser(user);
+
+            return true;
+        } else {
+            return false;
+        }
     }
 
     @Override

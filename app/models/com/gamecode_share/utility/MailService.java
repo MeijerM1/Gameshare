@@ -1,5 +1,6 @@
 package models.com.gamecode_share.utility;
 
+import models.com.gamecode_share.models.User;
 import play.libs.mailer.Email;
 import play.libs.mailer.MailerClient;
 
@@ -12,13 +13,14 @@ public class MailService {
         this.mailerClient = mailerClient;
     }
 
-    public void sendSignUpConfirmation(String emailAdress) {
+    public void sendSignUpConfirmation(User user) {
         Email email = new Email()
                 .setSubject("Test")
                 .setFrom("info@gamecode-share.com")
-                .addTo(emailAdress)
+                .addTo(user.getEmail())
                 // sends text, HTML or both...
-                .setBodyText("Dit is een test email, als u niet weet waarvan deze afkomstig is kunt u deze verwijderen, excuses voor het ongemak");
+                .setBodyText("Copy this code: "+ user.getVerificationCode()  + "\n" +
+                            "This is a test email,if you do not know what this is you can safely ignore and delete it.");
         mailerClient.send(email);
     }
 }

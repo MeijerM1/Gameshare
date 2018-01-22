@@ -10,9 +10,9 @@ GET     /auth/login                 controllers.AuthenticationController.login()
 POST    /auth/authenticate          controllers.AuthenticationController.authenticate()
 GET     /auth/register              controllers.AuthenticationController.register()
 POST    /auth/create                controllers.AuthenticationController.createAccount()
+GET     /auth/verify/:email/:code   controllers.AuthenticationController.verifyAccount(email: String, code: String)
 
 #Account
 GET     /account/profile            controllers.UserController.profile()
-GET     /account/test               controllers.UserController.sendEmail()
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

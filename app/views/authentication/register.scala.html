@@ -14,7 +14,7 @@
             }
             </p>
         }
-        @b4.form(routes.AuthenticationController.createAccount()) {
+        @b4.formCSRF(routes.AuthenticationController.createAccount()) {
             <div class="row">@b4.email(form("email"), '_label -> "Email")</div>
             <div style="display: none; color:#d9534f" id="validation_error_0" class="form-control-feedback ">Email already in use</div>
             <div class="row">@b4.text(form("username"), '_label -> "Username")</div>

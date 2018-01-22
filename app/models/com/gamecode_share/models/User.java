@@ -1,9 +1,12 @@
 package models.com.gamecode_share.models;
 
+import models.com.gamecode_share.utility.StringGenerator;
 import org.hibernate.annotations.ColumnTransformer;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -22,10 +25,18 @@ public class User {
 
     @Column(nullable = false)
     private int reputation = 0;
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String email;
     @Column(nullable = false)
     private boolean isVerified;
+
+    @Column(nullable = true)
+    private String verificationCode;
+    @Column(nullable = true)
+    private Date verifyDate;
+
+    @Column(nullable = false)
+    private Date joinDate;
 
     private Role role;
 
@@ -42,6 +53,12 @@ public class User {
         role = Role.USER;
         codes = new ArrayList<>();
         this.username = username;
+    }
+
+    public void generateVerificationCode() {
+        verifyDate = new Date();
+        verificationCode = StringGenerator.generateRandom(20);
+        isVerified = false;
     }
 
     public byte[] getSalt() {
@@ -118,5 +135,29 @@ public class User {
 
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    public String getVerificationCode() {
+        return verificationCode;
+    }
+
+    public void setVerificationCode(String verificationCode) {
+        this.verificationCode = verificationCode;
+    }
+
+    public Date getVerifyDate() {
+        return verifyDate;
+    }
+
+    public void setVerifyDate(Date verifyDate) {
+        this.verifyDate = verifyDate;
+    }
+
+    public Date getJoinDate() {
+        return joinDate;
+    }
+
+    public void setJoinDate(Date joinDate) {
+        this.joinDate = joinDate;
     }
 }
