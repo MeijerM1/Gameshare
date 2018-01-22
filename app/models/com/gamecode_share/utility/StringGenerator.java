@@ -11,6 +11,6 @@ public class StringGenerator {
                         .withinRange('0', 'z')
                         .filteredBy(CharacterPredicates.LETTERS, CharacterPredicates.DIGITS)
                         .build();
-       return randomStringGenerator.generate(25);
+       return randomStringGenerator.generate(length);
     }
 }

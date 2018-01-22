@@ -1,0 +1,12 @@
+@import models.com.gamecode_share.models.User
+@(page: String, isLoggedIn: Boolean, user: User, messages: play.i18n.Messages)
+
+@shared.main(page, isLoggedIn, user, messages) {
+<div class="container">
+    <h1>@messages.at("authentication.accountCreateConformation.title")</h1>
+
+    <p>@messages.at("authentication.accountCreateConformation.email")</p>
+
+    <p>@messages.at("authentication.accountCreateConformation.patient")</p>
+</div>
+}

@@ -10,6 +10,7 @@ import play.data.Form;
 import play.data.FormFactory;
 import play.libs.concurrent.HttpExecutionContext;
 import play.mvc.Controller;
+import play.mvc.Http;
 import play.mvc.Result;
 
 import javax.inject.Inject;
@@ -35,7 +36,7 @@ public class AuthenticationController extends Controller {
     }
 
     public Result login() {
-        return ok(views.html.authentication.login.render("Login", Secured.isLoggedIn(ctx()), secured.getUserInfo(ctx()), dynForm));
+        return ok(views.html.authentication.login.render("Login", Secured.isLoggedIn(ctx()), secured.getUserInfo(ctx()), dynForm, Http.Context.current().messages()));
     }
 
     public Result authenticate() {
@@ -66,26 +67,36 @@ public class AuthenticationController extends Controller {
 
         char[] password = filledForm.field("password").value().toCharArray();
 
+        userRepository.add(user, password);
+
         user.generateVerificationCode();
         sendEmail(user);
 
-        userRepository.add(user, password);
+        userRepository.updateUser(user);
 
-        return redirect(routes.SiteController.index());
+        return ok(views.html.authentication.accountCreateConfirmation.render("Register", Secured.isLoggedIn(ctx()), secured.getUserInfo(ctx()), Http.Context.current().messages()));
     }
 
     public Result register() {
-        return ok(views.html.authentication.register.render("Register", Secured.isLoggedIn(ctx()), secured.getUserInfo(ctx()), form));
+        return ok(views.html.authentication.register.render("Register", Secured.isLoggedIn(ctx()), secured.getUserInfo(ctx()), form, Http.Context.current().messages()));
     }
 
     public Result verifyAccount(String email, String verificationCode  ) {
         boolean result = userRepository.verifyUser(email , verificationCode);
 
         if(result) {
-            System.out.println("Account verified");
+            return ok(views.html.authentication.accountVerifyConfirmation.render("Verify", Secured.isLoggedIn(ctx()), secured.getUserInfo(ctx()), Http.Context.current().messages()));
         } else {
-            System.out.println("Account verification unsuccessful");
+            return ok(views.html.authentication.accountVerifyError.render("Verify", Secured.isLoggedIn(ctx()), secured.getUserInfo(ctx()), Http.Context.current().messages(), email));
         }
+    }
+
+    public Result sendVerificationEmail(String email) {
+        User user  = userRepository.getUserByEmail(email);
+
+        user.generateVerificationCode();
+        sendEmail(user);
+
         return ok();
     }
 

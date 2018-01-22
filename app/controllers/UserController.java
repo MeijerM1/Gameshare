@@ -7,6 +7,7 @@ import play.data.Form;
 import play.data.FormFactory;
 import play.libs.concurrent.HttpExecutionContext;
 import play.mvc.Controller;
+import play.mvc.Http;
 import play.mvc.Result;
 
 import javax.inject.Inject;
@@ -40,7 +41,7 @@ public class UserController extends Controller {
     }
 
     public Result profile() {
-        return ok(views.html.account.profile.render("Profile", Secured.isLoggedIn(ctx()), secured.getUserInfo(ctx()), form));
+        return ok(views.html.account.profile.render("Profile", Secured.isLoggedIn(ctx()), secured.getUserInfo(ctx()), form, Http.Context.current().messages()));
     }
 
 }

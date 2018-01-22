@@ -11,6 +11,7 @@ POST    /auth/authenticate          controllers.AuthenticationController.authent
 GET     /auth/register              controllers.AuthenticationController.register()
 POST    /auth/create                controllers.AuthenticationController.createAccount()
 GET     /auth/verify/:email/:code   controllers.AuthenticationController.verifyAccount(email: String, code: String)
+GET     /auth/resendverify/:email   controllers.AuthenticationController.sendVerificationEmail(email: String)
 
 #Account
 GET     /account/profile            controllers.UserController.profile()

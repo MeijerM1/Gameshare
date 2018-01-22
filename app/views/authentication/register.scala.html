@@ -1,8 +1,8 @@
 @import models.com.gamecode_share.models.User
 @import b4.vertical.fieldConstructor
-@(page: String, isLoggedIn: Boolean, user: User, form: Form[User])
+@(page: String, isLoggedIn: Boolean, user: User, form: Form[User], messages: play.i18n.Messages)
 
-@shared.main(page, isLoggedIn, user) {
+@shared.main(page, isLoggedIn, user, messages) {
     <div class="container">
         <div class="row">
             <h1>Register</h1>
@@ -10,7 +10,7 @@
         @if(form.hasGlobalErrors) {
             <p class="error">
             @for(error <- form.globalErrors) {
-                <p>@error.format(messages())</p>
+                <p>@error.format(messages)</p>
             }
             </p>
         }

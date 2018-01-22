@@ -1,0 +1,13 @@
+#Site
+site.index.title=Welcome to Gamecode share
+
+#authentication
+authentication.accountCreateConformation.title=Account successfully created
+authentication.accountCreateConformation.email=An email has been sent to you with a verification link, please follow it to activate your account.
+authentication.accountCreateConformation.patient=Please be patient as it might take a while to reach you.
+
+authentication.accountVerifyConformation.title=Your account has been activated.
+authentication.accountVerifyConformation.message=You are now free to go and use your account.
+
+authentication.accountVerifyError.title=There was an error activating your account.
+authentication.accountVerifyError.message=Click the button below to get a new the verification email.

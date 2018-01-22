@@ -57,7 +57,7 @@ public class User {
 
     public void generateVerificationCode() {
         verifyDate = new Date();
-        verificationCode = StringGenerator.generateRandom(20);
+        verificationCode = StringGenerator.generateRandom(50);
         isVerified = false;
     }
 

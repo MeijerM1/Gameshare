@@ -1,8 +1,8 @@
 @import models.com.gamecode_share.models.User
 @import b4.vertical.fieldConstructor
-@(page: String, isLoggedIn: Boolean, user: User, form: DynamicForm)
+@(page: String, isLoggedIn: Boolean, user: User, form: DynamicForm, messages: play.i18n.Messages)
 
-@shared.main(page, isLoggedIn, user) {
+@shared.main(page, isLoggedIn, user, messages) {
     <div class="container">
         <h1>Log in</h1>
         @b4.form(routes.AuthenticationController.authenticate()) {

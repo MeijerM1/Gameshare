@@ -19,7 +19,8 @@ public class MailService {
                 .setFrom("info@gamecode-share.com")
                 .addTo(user.getEmail())
                 // sends text, HTML or both...
-                .setBodyText("Copy this code: "+ user.getVerificationCode()  + "\n" +
+                .setBodyText("Click this link to verify your account: http://localhost:9000/auth/verify/" + user.getEmail() + "/" + user.getVerificationCode() + "\n" +
+                            "Copy this code: "+ user.getVerificationCode()  + "\n" +
                             "This is a test email,if you do not know what this is you can safely ignore and delete it.");
         mailerClient.send(email);
     }
