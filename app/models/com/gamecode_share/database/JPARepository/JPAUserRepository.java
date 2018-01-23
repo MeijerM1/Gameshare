@@ -42,8 +42,8 @@ public class JPAUserRepository implements UserRepository {
     }
 
     @Override
-    public CompletionStage<User> add(User user, char[] password) {
-        return supplyAsync(() -> wrap(em -> insert(em, user, password)), executionContext);
+    public User add(User user, char[] password) {
+        return insert(user, password);
     }
 
     @Override
@@ -139,13 +139,14 @@ public class JPAUserRepository implements UserRepository {
         return jpaApi.withTransaction(function);
     }
 
-    private User insert(EntityManager em, User user, char[] password) {
+    private User insert(User user, char[] password) {
+        return jpaApi.withTransaction(() -> {
+            user.setSalt(getNextSalt());
+            user.setHashedPassword(hash(password, user.getSalt(), 1000, 256));
 
-        user.setSalt(getNextSalt());
-        user.setHashedPassword(hash(password, user.getSalt(), 1000, 256));
-
-        em.persist(user);
-        return user;
+             jpaApi.em().persist(user);
+            return user;
+        });
     }
 
     private boolean login(EntityManager em, String email, char[] password) {

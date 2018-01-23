@@ -1,19 +1,22 @@
 package models.com.gamecode_share.utility;
 
 import models.com.gamecode_share.models.User;
+import play.api.Play;
 import play.libs.mailer.Email;
 import play.libs.mailer.MailerClient;
 
 import javax.inject.Inject;
 
 public class MailService {
-    private MailerClient mailerClient;
+    private final MailerClient mailerClient;
 
-    public MailService(MailerClient mailerClient) {
-        this.mailerClient = mailerClient;
+    @Inject
+    public MailService(MailerClient client) {
+        this.mailerClient = client;
     }
 
     public void sendSignUpConfirmation(User user) {
+
         Email email = new Email()
                 .setSubject("Test")
                 .setFrom("info@gamecode-share.com")

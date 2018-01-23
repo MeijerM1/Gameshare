@@ -1,20 +1,32 @@
 @import models.com.gamecode_share.models.User
 @(page: String, isLoggedIn: Boolean, user: User, messages: play.i18n.Messages, email: String)
 
-<script>
-    function sendEmail(email) {
-        $.post('/auth/resendverify/' + email, function(data) {
-
-        }
-    }
-
-</script>
 
 @shared.main(page, isLoggedIn, user, messages) {
-<div class="container">
-    <h1>@messages.at("authentication.accountVerifyError.title")</h1>
+    <script>
+            $(document ).ready(function () {
+                $('#emailButton').on('click', function (e) {
+                    //sendEmail()
+                    console.log(test);
+                });
+            });
 
-    <p>@messages.at("authentication.accountVerifyError.message")</p>
-    <button class="btn-default" onclick="sendEmail(@email)">test</button>
-</div>
+
+            function sendEmail(email) {
+                console.log(email);
+                $.post('/auth/resendverify/' + email, function(data) {
+                    console.log(data);
+                });
+            }
+
+    </script>
+
+
+    <div class="container">
+        <h1>@messages.at("authentication.accountVerifyError.title")</h1>
+
+        <p>@messages.at("authentication.accountVerifyError.message")</p>
+        <button onclick="sendEmail(@email)">Send email</button>
+        <p>test</p>
+    </div>
 }
