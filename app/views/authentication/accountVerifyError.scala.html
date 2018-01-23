@@ -14,7 +14,7 @@
 
             function sendEmail(email) {
                 console.log(email);
-                $.post('/auth/resendverify/' + email, function(data) {
+                $.get('/auth/resendverify/' + email, function(data) {
                     console.log(data);
                 });
             }
@@ -26,7 +26,7 @@
         <h1>@messages.at("authentication.accountVerifyError.title")</h1>
 
         <p>@messages.at("authentication.accountVerifyError.message")</p>
-        <button onclick="sendEmail(@email)">Send email</button>
+        <button onclick="sendEmail('@email')">Send email</button>
         <p>test</p>
     </div>
 }
