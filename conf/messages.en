@@ -11,3 +11,5 @@ authentication.accountVerifyConformation.message=You are now free to go and use 
 
 authentication.accountVerifyError.title=There was an error activating your account.
 authentication.accountVerifyError.message=Click the button below to get a new the verification email.
+
+authentication.login.loginError=Invalid email or password

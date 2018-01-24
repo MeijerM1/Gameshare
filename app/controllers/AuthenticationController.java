@@ -9,6 +9,7 @@ import play.api.libs.mailer.MailerClient;
 import play.data.DynamicForm;
 import play.data.Form;
 import play.data.FormFactory;
+import play.i18n.Messages;
 import play.libs.concurrent.HttpExecutionContext;
 import play.mvc.Controller;
 import play.mvc.Http;
@@ -44,20 +45,24 @@ public class AuthenticationController extends Controller {
 
     public Result authenticate() {
         DynamicForm tempForm = formFactory.form().bindFromRequest();
-        String email = tempForm.get("email");
-        char[] password = tempForm.get("password").toCharArray();
 
         if(tempForm.hasErrors()) {
             return login();
         }
 
-        if(userRepository.login(email, password)) {
-            System.out.println("Loggin succesful");
-            session().clear();
-            session("email", email);
-        }
+        Messages messages = Http.Context.current().messages();
 
-        return redirect(routes.SiteController.index());
+        boolean result = userService.login(tempForm);
+
+        if(result) {
+            System.out.println("Login successful");
+            session().clear();
+            session("email", tempForm.get("email"));
+            return redirect(routes.SiteController.index());
+        } else {
+            DynamicForm returnForm = (DynamicForm) tempForm.withGlobalError(messages.at("authentication.login.loginError"));
+            return badRequest(views.html.authentication.login.render("Login", Secured.isLoggedIn(ctx()), secured.getUserInfo(ctx()), returnForm ,messages));
+        }
     }
 
     public Result createAccount() {

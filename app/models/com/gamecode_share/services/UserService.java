@@ -3,6 +3,7 @@ package models.com.gamecode_share.services;
 import models.com.gamecode_share.database.Interfaces.UserRepository;
 import models.com.gamecode_share.models.User;
 import models.com.gamecode_share.utility.MailService;
+import play.data.DynamicForm;
 import play.data.Form;
 import play.libs.mailer.MailerClient;
 
@@ -32,6 +33,17 @@ public class UserService {
         User usr = userRepository.add(user, password);
 
         sendVerificationEmail(usr);
+    }
+
+    public boolean login(DynamicForm form) {
+        String email = form.get("email");
+        char[] password = form.get("password").toCharArray();
+
+        try {
+            return userRepository.login(email, password);
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     public boolean verifyAccount(String email, String verificationCode) {
