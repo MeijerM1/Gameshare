@@ -77,4 +77,14 @@ public class UserService {
             return false;
         }
     }
+
+    public boolean checkUsername(String username) {
+        User user  = userRepository.getUserByUsername(username);
+
+        if(user != null) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

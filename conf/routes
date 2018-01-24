@@ -15,6 +15,7 @@ GET     /auth/resendverify/:email   controllers.AuthenticationController.sendVer
 
 #Auth utility
 GET     /auth/util/checkemail/:email controllers.AuthenticationController.checkEmail(email: String)
+GET     /auth/util/checkusername/:username controllers.AuthenticationController.checkUsername(username: String)
 
 #Account
 GET     /account/profile            controllers.UserController.profile()

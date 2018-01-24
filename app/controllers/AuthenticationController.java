@@ -106,4 +106,14 @@ public class AuthenticationController extends Controller {
             return ok("user_nonexists");
         }
     }
+
+    public Result checkUsername(String username) {
+        boolean result = userService.checkUsername(username);
+
+        if(result) {
+            return ok("user_exists");
+        } else {
+            return ok("user_nonexists");
+        }
+    }
 }

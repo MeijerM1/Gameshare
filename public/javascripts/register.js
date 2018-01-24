@@ -3,6 +3,11 @@ $( document ).ready(function () {
         checkEmailUsage();
     });
 
+    $('#username').on('input', function() {
+        checkUsernameUsage();
+    });
+
+
     $('#password').on('input', function() {
         comparePasswords();
     });
@@ -14,7 +19,7 @@ $( document ).ready(function () {
 });
 
 function checkEmailUsage() {
-    const email = $('#email')
+    const email = $('#email');
 
     if(email.val() !== "") {
         $.get('/auth/util/checkemail/' + email.val(), function (data) {
@@ -28,6 +33,24 @@ function checkEmailUsage() {
         });
     } else {
         showEmailError(false);
+    }
+}
+
+function checkUsernameUsage() {
+    const username = $('#username');
+
+    if(username.val() !== "") {
+        $.get('/auth/util/checkusername/' + username.val(), function (data) {
+            if (data === "user_exists") {
+                console.log("User already exists");
+                showUsernameError(true);
+            } else {
+                console.log("User doesn't exists");
+                showUsernameError(false);
+            }
+        });
+    } else {
+        showUsernameError(false);
     }
 }
 
@@ -50,6 +73,17 @@ function showEmailError(disable) {
     } else {
         $('#email').removeClass('is-invalid');
         $('#validation_error_email').css("display", "none");
+    }
+}
+
+function showUsernameError(disable) {
+    $('.btn-default').prop("disabled",disable);
+    if(disable) {
+        $('#username').addClass('is-invalid');
+        $('#validation_error_username').css("display", "block");
+    } else {
+        $('#username').removeClass('is-invalid');
+        $('#validation_error_username').css("display", "none");
     }
 }
 

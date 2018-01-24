@@ -8,28 +8,37 @@
 
     <div class="container">
         <div class="row">
-            <h1>Register</h1>
+            <h1>@messages.at("auth.register.title")</h1>
         </div>
-        @if(form.hasGlobalErrors) {
-            <p class="error">
+        @if(form.hasErrors) {
             @for(error <- form.globalErrors) {
-                <p>@error.format(messages)</p>
+                <div class="alert alert-danger" role="alert">
+                @error.format(messages)
+                </div>
             }
-            </p>
         }
+
         @b4.formCSRF(routes.AuthenticationController.createAccount()) {
-            <div class="row">
-                @b4.email(form("email"), '_label -> "Email")
-                <div id="validation_error_email" class="invalid-feedback">Email already in use</div>
+            <div class="form-group">
+                <label for="email">@messages.at("auth.register.email")</label>
+                <input name="email" type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email" required>
+                <div id="validation_error_email" class="invalid-feedback">@messages.at("auth.register.email.error")</div>
             </div>
-            <div class="row">@b4.text(form("username"), '_label -> "Username", 'required -> "required")</div>
-            <div class="row">@b4.password(form("password"), '_label -> "Password", 'required -> "required")</div>
-            <div class="row">
-                @b4.password(form("validation"), '_label -> "Repeat password", 'required -> "required")
-                <div style="display: none; color:#d9534f" id="validation_error_password" class="invalid-feedback">Passwords do not match</div>
+            <div class="form-group">
+                <label for="username">@messages.at("auth.register.username")</label>
+                <input name="username" type="text" class="form-control" id="username" aria-describedby="emailHelp" placeholder="Enter username" required>
+                <div id="validation_error_username" class="invalid-feedback">@messages.at("auth.register.username.error")</div>
             </div>
-            <div style="display: none; color:#d9534f" id="validation_error_password" class="form-control-feedback ">Passwords do not match</div>
-            <div class="row">@b4.submit('class -> "btn btn-default") { Create account}</div>
+            <div class="form-group">
+                <label for="password">@messages.at("auth.register.password")</label>
+                <input name="password" type="password" class="form-control" id="password" placeholder="Password" required minlength="6">
+            </div>
+            <div class="form-group">
+                <label for="validation">@messages.at("auth.register.password.again")</label>
+                <input name="validation" type="password" class="form-control" id="validation" placeholder="Password" required>
+                <div style="display: none; color:#d9534f" id="validation_error_password" class="invalid-feedback">@messages.at("auth.register.password.error")</div>
+            </div>
+            <button class="btn btn-primary" type="submit">Create account</button>
         }
     </div>
 }

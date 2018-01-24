@@ -74,11 +74,15 @@ public class JPAUserRepository implements UserRepository {
 
     @Override
     public User getUserByUsername(String username) {
-        return jpaApi.withTransaction(() -> {
-            EntityManager em = jpaApi.em();
-            TypedQuery<User> query = em.createQuery("select p from User p where username = :username", User.class);
-            return query.setParameter("username", username).getSingleResult();
-        });
+        try {
+            return jpaApi.withTransaction(() -> {
+                EntityManager em = jpaApi.em();
+                TypedQuery<User> query = em.createQuery("select p from User p where username = :username", User.class);
+                return query.setParameter("username", username).getSingleResult();
+            });
+        } catch (NoResultException e) {
+            return null;
+        }
     }
 
     @Override

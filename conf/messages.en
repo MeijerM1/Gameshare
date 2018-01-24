@@ -13,3 +13,14 @@ authentication.accountVerifyError.title=There was an error activating your accou
 authentication.accountVerifyError.message=Click the button below to get a new the verification email.
 
 authentication.login.loginError=Invalid email or password
+
+auth.register.title=Register
+auth.register.email=Email address
+auth.register.email.error=Email already in use
+auth.register.username=Username
+auth.register.username.error=Username already in use
+auth.register.password=Password
+auth.register.password.again=Password (repeat)
+auth.register.password.error=Passwords do not match
+
+
