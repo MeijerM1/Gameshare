@@ -55,4 +55,14 @@ public class UserService {
         userRepository.updateUser(user);
         sendEmail(user);
     }
+
+    public boolean checkEmail(String email) {
+        User user  = userRepository.getUserByEmail(email);
+
+        if(user != null) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

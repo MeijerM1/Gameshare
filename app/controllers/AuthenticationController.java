@@ -91,4 +91,14 @@ public class AuthenticationController extends Controller {
 
         return ok();
     }
+
+    public Result checkEmail(String email) {
+        boolean result = userService.checkEmail(email);
+
+        if(result) {
+            return ok("user_exists");
+        } else {
+            return ok("user_nonexists");
+        }
+    }
 }

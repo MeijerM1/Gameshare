@@ -2,6 +2,7 @@ package models.com.gamecode_share.models;
 
 import models.com.gamecode_share.utility.StringGenerator;
 import org.hibernate.annotations.ColumnTransformer;
+import play.data.validation.Constraints;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -16,22 +17,30 @@ public class User {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
+
     @Column(nullable = false, unique = true)
+    @Constraints.Required
     private String username;
+
     @Column(nullable = false)
     private byte[] salt;
+
     @Column(nullable = false)
     private byte[] hashedPassword;
 
     @Column(nullable = false)
     private int reputation = 0;
+
     @Column(nullable = false, unique = true)
+    @Constraints.Required
     private String email;
+
     @Column(nullable = false)
     private boolean isVerified;
 
     @Column(nullable = true)
     private String verificationCode;
+
     @Column(nullable = true)
     private Date verifyDate;
 

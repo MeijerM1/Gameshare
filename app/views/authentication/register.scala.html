@@ -3,6 +3,9 @@
 @(page: String, isLoggedIn: Boolean, user: User, form: Form[User], messages: play.i18n.Messages)
 
 @shared.main(page, isLoggedIn, user, messages) {
+
+    <script src="@routes.Assets.at("javascripts/register.js")"></script>
+
     <div class="container">
         <div class="row">
             <h1>Register</h1>
@@ -15,12 +18,17 @@
             </p>
         }
         @b4.formCSRF(routes.AuthenticationController.createAccount()) {
-            <div class="row">@b4.email(form("email"), '_label -> "Email")</div>
-            <div style="display: none; color:#d9534f" id="validation_error_0" class="form-control-feedback ">Email already in use</div>
-            <div class="row">@b4.text(form("username"), '_label -> "Username")</div>
+            <div class="row">
+                @b4.email(form("email"), '_label -> "Email")
+                <div id="validation_error_email" class="invalid-feedback">Email already in use</div>
+            </div>
+            <div class="row">@b4.text(form("username"), '_label -> "Username", 'required -> "required")</div>
             <div class="row">@b4.password(form("password"), '_label -> "Password", 'required -> "required")</div>
-            <div class="row">@b4.password(form("validation"), '_label -> "Repeat password", 'required -> "required")</div>
-            <div style="display: none; color:#d9534f" id="validation_error_1" class="form-control-feedback ">Passwords do not match</div>
+            <div class="row">
+                @b4.password(form("validation"), '_label -> "Repeat password", 'required -> "required")
+                <div style="display: none; color:#d9534f" id="validation_error_password" class="invalid-feedback">Passwords do not match</div>
+            </div>
+            <div style="display: none; color:#d9534f" id="validation_error_password" class="form-control-feedback ">Passwords do not match</div>
             <div class="row">@b4.submit('class -> "btn btn-default") { Create account}</div>
         }
     </div>

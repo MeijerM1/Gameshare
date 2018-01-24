@@ -13,6 +13,9 @@ POST    /auth/create                controllers.AuthenticationController.createA
 GET     /auth/verify/:email/:code   controllers.AuthenticationController.verifyAccount(email: String, code: String)
 GET     /auth/resendverify/:email   controllers.AuthenticationController.sendVerificationEmail(email: String)
 
+#Auth utility
+GET     /auth/util/checkemail/:email controllers.AuthenticationController.checkEmail(email: String)
+
 #Account
 GET     /account/profile            controllers.UserController.profile()
 # Map static resources from the /public folder to the /assets URL path
