@@ -14,8 +14,7 @@
             }
         }
 
-        @helper.form(routes.AuthenticationController.authenticate, 'class -> "form-group") {
-            @CSRF.formField
+        @b4.formCSRF(routes.AuthenticationController.authenticate()) {
             <div class="form-group">
                 <label for="email">Email address</label>
                 <input name="email" type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email" required>

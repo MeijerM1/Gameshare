@@ -13,6 +13,8 @@ authentication.accountVerifyError.title=There was an error activating your accou
 authentication.accountVerifyError.message=Click the button below to get a new the verification email.
 
 authentication.login.loginError=Invalid email or password
+auth.login.banError=You are currently banned and not allowed to log in
+auth.login.verifyError=Your account is not verified, please follow the link in the email that was send to you
 
 auth.register.title=Register
 auth.register.email=Email address
