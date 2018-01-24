@@ -3,11 +3,12 @@
 @(page: String, isLoggedIn: Boolean, user: User, form: Form[User], messages: play.i18n.Messages)
 
 @shared.main(page, isLoggedIn, user, messages) {
-
-    <script src="@routes.Assets.at("javascripts/register.js")"></script>
-
+    <head>
+        <link rel="stylesheet" href="@routes.Assets.at("stylesheets/authentication.css")">
+        <script src="@routes.Assets.at("javascripts/register.js")"></script>
+    </head>
     <div class="container">
-        <div class="row">
+        <div class="row col-lg-12">
             <h1>@messages.at("auth.register.title")</h1>
         </div>
         @if(form.hasErrors) {
@@ -19,26 +20,37 @@
         }
 
         @b4.formCSRF(routes.AuthenticationController.createAccount()) {
-            <div class="form-group">
-                <label for="email">@messages.at("auth.register.email")</label>
-                <input name="email" type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email" required>
-                <div id="validation_error_email" class="invalid-feedback">@messages.at("auth.register.email.error")</div>
+            <div class="col-lg-12">
+                <div class="form-group">
+                    <label for="email">@messages.at("auth.register.email")</label>
+                    <input name="email" type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email" required>
+                    <div id="validation_error_email" class="invalid-feedback">@messages.at("auth.register.email.error")</div>
+                </div>
             </div>
-            <div class="form-group">
-                <label for="username">@messages.at("auth.register.username")</label>
-                <input name="username" type="text" class="form-control" id="username" aria-describedby="emailHelp" placeholder="Enter username" required>
-                <div id="validation_error_username" class="invalid-feedback">@messages.at("auth.register.username.error")</div>
+            <div class="col-lg-12">
+                <div class="form-group">
+                    <label for="username">@messages.at("auth.register.username")</label>
+                    <input name="username" type="text" class="form-control" id="username" aria-describedby="emailHelp" placeholder="Enter username" required>
+                    <div id="validation_error_username" class="invalid-feedback">@messages.at("auth.register.username.error")</div>
+                </div>
             </div>
-            <div class="form-group">
-                <label for="password">@messages.at("auth.register.password")</label>
-                <input name="password" type="password" class="form-control" id="password" placeholder="Password" required minlength="6">
+            <div class="col-lg-12">
+                <div class="form-group">
+                    <label for="password">@messages.at("auth.register.password")</label>
+                    <input name="password" type="password" class="form-control" id="password" placeholder="Password" required minlength="6">
+                </div>
             </div>
-            <div class="form-group">
-                <label for="validation">@messages.at("auth.register.password.again")</label>
-                <input name="validation" type="password" class="form-control" id="validation" placeholder="Password" required>
-                <div style="display: none; color:#d9534f" id="validation_error_password" class="invalid-feedback">@messages.at("auth.register.password.error")</div>
+            <div class="col-lg-12">
+                <div class="form-group">
+                    <label for="validation">@messages.at("auth.register.password.again")</label>
+                    <input name="validation" type="password" class="form-control" id="validation" placeholder="Password" required>
+                    <div style="display: none;
+                        color: #d9534f" id="validation_error_password" class="invalid-feedback">@messages.at("auth.register.password.error")</div>
+                </div>
             </div>
-            <button class="btn btn-primary" type="submit">Create account</button>
+            <div class="col-lg-12">
+                <button class="btn btn-secondary" type="submit">Create account</button>
+            </div>
         }
     </div>
 }
