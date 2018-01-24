@@ -1,6 +1,7 @@
 package controllers;
 
 import models.com.gamecode_share.database.Interfaces.UserRepository;
+import models.com.gamecode_share.models.Role;
 import models.com.gamecode_share.models.User;
 import models.com.gamecode_share.security.Secured;
 import models.com.gamecode_share.services.UserService;
@@ -58,6 +59,16 @@ public class AuthenticationController extends Controller {
             System.out.println("Login successful");
             session().clear();
             session("email", tempForm.get("email"));
+            User user = secured.getUserInfo(ctx());
+
+            if (user.getRole() == Role.BANNEDUSER) {
+                DynamicForm returnForm = (DynamicForm) tempForm.withGlobalError(messages.at("auth.login.banError"));
+                return badRequest(views.html.authentication.login.render("Login", Secured.isLoggedIn(ctx()), secured.getUserInfo(ctx()), returnForm ,messages));
+            } else if (!user.isVerified()) {
+                DynamicForm returnForm = (DynamicForm) tempForm.withGlobalError(messages.at("auth.login.verifyError"));
+                return badRequest(views.html.authentication.login.render("Login", Secured.isLoggedIn(ctx()), secured.getUserInfo(ctx()), returnForm ,messages));
+            }
+
             return redirect(routes.SiteController.index());
         } else {
             DynamicForm returnForm = (DynamicForm) tempForm.withGlobalError(messages.at("authentication.login.loginError"));
