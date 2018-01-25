@@ -7,6 +7,7 @@ GET     /                           controllers.SiteController.index()
 
 #Auth
 GET     /auth/login                 controllers.AuthenticationController.login()
+GET     /auth/signout               controllers.AuthenticationController.signOut()
 POST    /auth/authenticate          controllers.AuthenticationController.authenticate()
 GET     /auth/register              controllers.AuthenticationController.register()
 POST    /auth/create                controllers.AuthenticationController.createAccount()

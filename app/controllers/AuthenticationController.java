@@ -102,6 +102,13 @@ public class AuthenticationController extends Controller {
         }
     }
 
+    public Result signOut() {
+        session().clear();
+        return redirect(routes.SiteController.index());
+    }
+
+    // Utility
+
     public Result sendVerificationEmail(String email) {
         userService.sendVerificationEmail(email);
 

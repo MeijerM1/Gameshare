@@ -61,6 +61,7 @@ public class JPAUserRepository implements UserRepository {
             userToUpdate.setCodes(user.getCodes());
             userToUpdate.setHashedPassword(user.getHashedPassword());
             userToUpdate.setSalt(user.getSalt());
+            userToUpdate.setRole(user.getRole());
         });
     }
 
