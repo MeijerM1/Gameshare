@@ -2,6 +2,7 @@ package models.com.gamecode_share.database.JPARepository;
 
 import models.com.gamecode_share.database.DatabaseExecutionContext;
 import models.com.gamecode_share.database.Interfaces.UserRepository;
+import models.com.gamecode_share.models.Role;
 import models.com.gamecode_share.models.User;
 import play.db.jpa.JPAApi;
 import play.db.jpa.Transactional;
@@ -53,7 +54,6 @@ public class JPAUserRepository implements UserRepository {
             User userToUpdate = em.find(User.class, user.getId());
             userToUpdate.setJoinDate(user.getJoinDate());
             userToUpdate.setVerifyDate(user.getVerifyDate());
-            userToUpdate.setVerified(user.isVerified());
             userToUpdate.setVerificationCode(user.getVerificationCode());
             userToUpdate.setReputation(user.getReputation());
             userToUpdate.setUsername(user.getUsername());
@@ -110,7 +110,7 @@ public class JPAUserRepository implements UserRepository {
         if(diffHours < 1 && user.getVerificationCode().equals(verificationCode)) {
             user.setVerificationCode("");
             user.setVerifyDate(null);
-            user.setVerified(true);
+            user.setRole(Role.USER);
 
             updateUser(user);
 

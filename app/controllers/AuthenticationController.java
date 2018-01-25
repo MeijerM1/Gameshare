@@ -64,7 +64,7 @@ public class AuthenticationController extends Controller {
             if (user.getRole() == Role.BANNEDUSER) {
                 DynamicForm returnForm = (DynamicForm) tempForm.withGlobalError(messages.at("auth.login.banError"));
                 return badRequest(views.html.authentication.login.render("Login", Secured.isLoggedIn(ctx()), secured.getUserInfo(ctx()), returnForm ,messages));
-            } else if (!user.isVerified()) {
+            } else if (user.getRole() == Role.UNVERIFIED) {
                 DynamicForm returnForm = (DynamicForm) tempForm.withGlobalError(messages.at("auth.login.verifyError"));
                 return badRequest(views.html.authentication.login.render("Login", Secured.isLoggedIn(ctx()), secured.getUserInfo(ctx()), returnForm ,messages));
             }

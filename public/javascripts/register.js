@@ -55,7 +55,7 @@ function checkUsernameUsage() {
 }
 
 function showPassWordError(disable) {
-    $('.btn-default').prop("disabled",disable);
+    $('.btn-secondary').prop("disabled",disable);
     if(disable) {
         $('#validation').addClass('is-invalid');
         $('#validation_error_password').css("display", "block");
@@ -66,7 +66,7 @@ function showPassWordError(disable) {
 }
 
 function showEmailError(disable) {
-    $('.btn-default').prop("disabled",disable);
+    $('.btn-secondary').prop("disabled",disable);
     if(disable) {
         $('#email').addClass('is-invalid');
         $('#validation_error_email').css("display", "block");
@@ -77,7 +77,7 @@ function showEmailError(disable) {
 }
 
 function showUsernameError(disable) {
-    $('.btn-default').prop("disabled",disable);
+    $('.btn-secondary').prop("disabled",disable);
     if(disable) {
         $('#username').addClass('is-invalid');
         $('#validation_error_username').css("display", "block");

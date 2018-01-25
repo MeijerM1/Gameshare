@@ -35,9 +35,6 @@ public class User {
     @Constraints.Required
     private String email;
 
-    @Column(nullable = false)
-    private boolean isVerified;
-
     @Column(nullable = true)
     private String verificationCode;
 
@@ -53,13 +50,13 @@ public class User {
     private List<GameCode> codes;
 
     public User() {
-        role = Role.USER;
+        role = Role.UNVERIFIED;
         codes = new ArrayList<>();
     }
 
     public User(String username)
     {
-        role = Role.USER;
+        role = Role.UNVERIFIED;
         codes = new ArrayList<>();
         this.username = username;
     }
@@ -67,7 +64,7 @@ public class User {
     public void generateVerificationCode() {
         verifyDate = new Date();
         verificationCode = StringGenerator.generateRandom(50);
-        isVerified = false;
+        role = Role.UNVERIFIED;
     }
 
     public byte[] getSalt() {
@@ -116,14 +113,6 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public boolean isVerified() {
-        return isVerified;
-    }
-
-    public void setVerified(boolean verified) {
-        isVerified = verified;
     }
 
     public List<GameCode> getCodes() {
