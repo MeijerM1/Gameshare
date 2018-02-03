@@ -14,18 +14,20 @@ import java.util.concurrent.CompletionStage;
 @ImplementedBy(JPAUserRepository.class)
 public interface UserRepository {
 
-    CompletionStage<User> add(User user, char[] password);
+    User add(User user, char[] password);
 
     @Transactional
     List<User> list();
 
     void delete(Long id);
 
-    void editUser(Long id, String name);
+    void updateUser(User user);
 
-    boolean login(String username, char[] password);
+    boolean login(String email, char[] password);
 
     User getUserByUsername(String username);
 
     User getUserByEmail(String email);
+
+    boolean verifyUser(String email, String verificationCode);
 }

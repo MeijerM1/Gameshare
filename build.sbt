@@ -19,9 +19,16 @@ libraryDependencies += javaWs % "test"
 libraryDependencies += "org.awaitility" % "awaitility" % "2.0.0" % "test"
 libraryDependencies += "org.assertj" % "assertj-core" % "3.6.2" % "test"
 libraryDependencies += "org.mockito" % "mockito-core" % "2.1.0" % "test"
+// https://mvnrepository.com/artifact/org.apache.commons/commons-text
+libraryDependencies += "org.apache.commons" % "commons-text" % "1.2"
+
 testOptions in Test += Tests.Argument(TestFrameworks.JUnit, "-a", "-v")
 
 libraryDependencies ++= Seq(
   "com.adrianhurt" %% "play-bootstrap" % "1.2-P26-B4"
 )
+
+//Email
+libraryDependencies += "com.typesafe.play" %% "play-mailer" % "6.0.1"
+libraryDependencies += "com.typesafe.play" %% "play-mailer-guice" % "6.0.1"
 

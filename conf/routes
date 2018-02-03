@@ -2,9 +2,23 @@
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
 
-#User
-GET     /                           controllers.UserController.index()
-POST    /user                       controllers.UserController.addUser()
+#Site
+GET     /                           controllers.SiteController.index()
 
+#Auth
+GET     /auth/login                 controllers.AuthenticationController.login()
+GET     /auth/signout               controllers.AuthenticationController.signOut()
+POST    /auth/authenticate          controllers.AuthenticationController.authenticate()
+GET     /auth/register              controllers.AuthenticationController.register()
+POST    /auth/create                controllers.AuthenticationController.createAccount()
+GET     /auth/verify/:email/:code   controllers.AuthenticationController.verifyAccount(email: String, code: String)
+GET     /auth/resendverify/:email   controllers.AuthenticationController.sendVerificationEmail(email: String)
+
+#Auth utility
+GET     /auth/util/checkemail/:email controllers.AuthenticationController.checkEmail(email: String)
+GET     /auth/util/checkusername/:username controllers.AuthenticationController.checkUsername(username: String)
+
+#Account
+GET     /account/profile            controllers.UserController.profile()
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

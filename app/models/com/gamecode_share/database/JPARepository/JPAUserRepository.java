@@ -2,6 +2,7 @@ package models.com.gamecode_share.database.JPARepository;
 
 import models.com.gamecode_share.database.DatabaseExecutionContext;
 import models.com.gamecode_share.database.Interfaces.UserRepository;
+import models.com.gamecode_share.models.Role;
 import models.com.gamecode_share.models.User;
 import play.db.jpa.JPAApi;
 import play.db.jpa.Transactional;
@@ -9,12 +10,15 @@ import play.db.jpa.Transactional;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
 import javax.inject.Inject;
+import javax.inject.Singleton;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.CompletionStage;
@@ -26,6 +30,7 @@ import static java.util.concurrent.CompletableFuture.supplyAsync;
 /**
  * Provide JPA operations running inside of a thread pool sized to the connection pool
  */
+@Singleton
 public class JPAUserRepository implements UserRepository {
 
     private final JPAApi jpaApi;
@@ -38,45 +43,82 @@ public class JPAUserRepository implements UserRepository {
     }
 
     @Override
-    public CompletionStage<User> add(User user, char[] password) {
-        return supplyAsync(() -> wrap(em -> insert(em, user, password)), executionContext);
+    public User add(User user, char[] password) {
+        return insert(user, password);
     }
 
     @Override
-    public void editUser(Long id, String name){
+    public void updateUser(User user){
         jpaApi.withTransaction(() -> {
             EntityManager em = jpaApi.em();
-            User user = em.find(User.class,id);
-            if(!name.isEmpty()){
-                user.setUsername(name);
-            }
+            User userToUpdate = em.find(User.class, user.getId());
+            userToUpdate.setJoinDate(user.getJoinDate());
+            userToUpdate.setVerifyDate(user.getVerifyDate());
+            userToUpdate.setVerificationCode(user.getVerificationCode());
+            userToUpdate.setReputation(user.getReputation());
+            userToUpdate.setUsername(user.getUsername());
+            userToUpdate.setEmail(user.getEmail());
+            userToUpdate.setCodes(user.getCodes());
+            userToUpdate.setHashedPassword(user.getHashedPassword());
+            userToUpdate.setSalt(user.getSalt());
+            userToUpdate.setRole(user.getRole());
         });
     }
 
     @Override
-    public boolean login(String username, char[] password) {
+    public boolean login(String email, char[] password) {
         return jpaApi.withTransaction(() -> {
             EntityManager em = jpaApi.em();
-            return login(em, username, password);
+            return login(em, email, password);
         });
     }
 
     @Override
     public User getUserByUsername(String username) {
-        return jpaApi.withTransaction(() -> {
-            EntityManager em = jpaApi.em();
-            TypedQuery<User> query = em.createQuery("select p from User p where username = :username", User.class);
-            return query.setParameter("username", username).getSingleResult();
-        });
+        try {
+            return jpaApi.withTransaction(() -> {
+                EntityManager em = jpaApi.em();
+                TypedQuery<User> query = em.createQuery("select p from User p where username = :username", User.class);
+                return query.setParameter("username", username).getSingleResult();
+            });
+        } catch (NoResultException e) {
+            return null;
+        }
     }
 
     @Override
     public User getUserByEmail(String email) {
-        return jpaApi.withTransaction(() -> {
-            EntityManager em = jpaApi.em();
-            TypedQuery<User> query = em.createQuery("select p from User p where email = :email", User.class);
-            return query.setParameter("email", email).getSingleResult();
-        });
+        try {
+            return jpaApi.withTransaction(() -> {
+                EntityManager em = jpaApi.em();
+                TypedQuery<User> query = em.createQuery("select p from User p where email = :email", User.class);
+                return query.setParameter("email", email).getSingleResult();
+            });
+        } catch (NoResultException e) {
+            return null;
+        }
+    }
+
+    @Override
+    public boolean verifyUser(String email, String verificationCode) {
+        User user = getUserByEmail(email);
+
+        Date date = new Date();
+
+        long diff = date.getTime() - user.getVerifyDate().getTime();
+        long diffHours = diff / (60 * 60 * 1000) % 24;
+
+        if(diffHours < 1 && user.getVerificationCode().equals(verificationCode)) {
+            user.setVerificationCode("");
+            user.setVerifyDate(null);
+            user.setRole(Role.USER);
+
+            updateUser(user);
+
+            return true;
+        } else {
+            return false;
+        }
     }
 
     @Override
@@ -102,18 +144,19 @@ public class JPAUserRepository implements UserRepository {
         return jpaApi.withTransaction(function);
     }
 
-    private User insert(EntityManager em, User user, char[] password) {
+    private User insert(User user, char[] password) {
+        return jpaApi.withTransaction(() -> {
+            user.setSalt(getNextSalt());
+            user.setHashedPassword(hash(password, user.getSalt(), 1000, 256));
 
-        user.setSalt(getNextSalt());
-        user.setHashedPassword(hash(password, user.getSalt(), 1000, 256));
-
-        em.persist(user);
-        return user;
+             jpaApi.em().persist(user);
+            return user;
+        });
     }
 
-    private boolean login(EntityManager em, String username, char[] password) {
-        TypedQuery<User> query = em.createQuery("select p from User p where username = :username", User.class);
-        User userToLogin = query.setParameter("username", username).getSingleResult();
+    private boolean login(EntityManager em, String email, char[] password) {
+        TypedQuery<User> query = em.createQuery("select p from User p where email = :email", User.class);
+        User userToLogin = query.setParameter("email", email).getSingleResult();
 
         byte[] passwordToCheck = hash(password, userToLogin.getSalt(), 1000, 256);
 

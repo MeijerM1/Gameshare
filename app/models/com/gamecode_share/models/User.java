@@ -1,9 +1,13 @@
 package models.com.gamecode_share.models;
 
+import models.com.gamecode_share.utility.StringGenerator;
 import org.hibernate.annotations.ColumnTransformer;
+import play.data.validation.Constraints;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -13,31 +17,54 @@ public class User {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
-    @Column(nullable = false)
+
+    @Column(nullable = false, unique = true)
+    @Constraints.Required
     private String username;
+
     @Column(nullable = false)
     private byte[] salt;
+
     @Column(nullable = false)
     private byte[] hashedPassword;
 
     @Column(nullable = false)
     private int reputation = 0;
-    @Column(nullable = false)
+
+    @Column(nullable = false, unique = true)
+    @Constraints.Required
     private String email;
+
+    @Column(nullable = true)
+    private String verificationCode;
+
+    @Column(nullable = true)
+    private Date verifyDate;
+
     @Column(nullable = false)
-    private boolean isVerified;
+    private Date joinDate;
+
+    private Role role;
 
     @OneToMany( targetEntity=GameCode.class )
     private List<GameCode> codes;
 
     public User() {
+        role = Role.UNVERIFIED;
         codes = new ArrayList<>();
     }
 
     public User(String username)
     {
+        role = Role.UNVERIFIED;
         codes = new ArrayList<>();
         this.username = username;
+    }
+
+    public void generateVerificationCode() {
+        verifyDate = new Date();
+        verificationCode = StringGenerator.generateRandom(50);
+        role = Role.UNVERIFIED;
     }
 
     public byte[] getSalt() {
@@ -88,14 +115,6 @@ public class User {
         this.email = email;
     }
 
-    public boolean isVerified() {
-        return isVerified;
-    }
-
-    public void setVerified(boolean verified) {
-        isVerified = verified;
-    }
-
     public List<GameCode> getCodes() {
         return codes;
     }
@@ -106,5 +125,37 @@ public class User {
 
     public void addCode(GameCode code) {
         codes.add(code);
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
+    public String getVerificationCode() {
+        return verificationCode;
+    }
+
+    public void setVerificationCode(String verificationCode) {
+        this.verificationCode = verificationCode;
+    }
+
+    public Date getVerifyDate() {
+        return verifyDate;
+    }
+
+    public void setVerifyDate(Date verifyDate) {
+        this.verifyDate = verifyDate;
+    }
+
+    public Date getJoinDate() {
+        return joinDate;
+    }
+
+    public void setJoinDate(Date joinDate) {
+        this.joinDate = joinDate;
     }
 }

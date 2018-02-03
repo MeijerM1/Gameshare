@@ -1,0 +1,42 @@
+@import models.com.gamecode_share.models.User
+@import helper._
+@import b4.vertical.fieldConstructor
+@(page: String, isLoggedIn: Boolean, user: User, form: DynamicForm, messages: play.i18n.Messages)
+
+@shared.main(page, isLoggedIn, user, messages) {
+    <head>
+        <link rel="stylesheet" href="@routes.Assets.at("stylesheets/authentication.css")">
+    </head>
+    <div class="container">
+        <div class="row col-lg-12">
+            <h1>Log in</h1>
+        </div>
+        @if(form.hasErrors) {
+            @for(error <- form.globalErrors) {
+                <div class="alert alert-danger" role="alert">
+                    @error.format(messages)
+                </div>
+            }
+        }
+
+        @helper.form(routes.AuthenticationController.authenticate, 'class -> "form-group") {
+            @CSRF.formField
+            <div class="col-lg-12">
+                <div class="form-group">
+                    <label for="email">Email address</label>
+                    <input name="email" type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email" required>
+                    <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                </div>
+            </div>
+            <div class="col-lg-12">
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input name="password" type="password" class="form-control" id="password" placeholder="Password" required>
+                </div>
+            </div>
+            <div class="col-lg-12">
+                <button class="btn btn-secondary" type="submit">Login</button>
+            </div>
+        }
+    </div>
+}
